@@ -25,7 +25,7 @@
             --shadow-gold: rgba(197, 168, 128, 0.3);
             --font-serif: 'Playfair Display', Georgia, serif;
             --font-sans: 'Plus Jakarta Sans', sans-serif;
-            --font-wayang: 'Cinzel', serif; /* Font bergaya klasik/mitologi */
+            --font-wayang: 'Cinzel', serif;
             --transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
 
@@ -40,7 +40,7 @@
             min-height: 100vh;
             padding: 20px;
             overflow: hidden;
-            perspective: 1500px; /* Diperlukan untuk efek 3D flip buku */
+            perspective: 1500px;
         }
 
         /* ================= WAYANG WELCOME OVERLAY ================= */
@@ -65,7 +65,6 @@
             pointer-events: none;
         }
 
-        /* Gunungan Wayang (Siluet SVG) */
         .gunungan-logo {
             width: 160px;
             height: auto;
@@ -213,7 +212,6 @@
             transform-style: preserve-3d;
         }
 
-        /* Trigger saat amplop dibuka */
         .book-wrapper.show {
             opacity: 1;
             transform: rotateY(0deg) rotateX(0deg) scale(1) translateZ(0);
@@ -243,7 +241,6 @@
             transform: translateX(-50%);
         }
 
-        /* Transisi Lembaran Buku (Fade & Slide Lembut) */
         .page-spread {
             display: none;
             width: 100%;
@@ -267,35 +264,23 @@
             justify-content: space-between;
             position: relative;
             overflow-y: auto;
-            /* Motif Bingkai Klasik Wayang */
             background-image: 
                 linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
             background-size: 20px 20px;
         }
 
-        /* Ornamen Sudut Halaman (Emas Wayang) */
-        .page::before {
+        .page::before, .page::after {
             content: "✦";
             position: absolute;
             top: 15px;
-            left: 15px;
             color: var(--accent-gold);
             font-size: 1.2rem;
             opacity: 0.6;
             font-family: var(--font-wayang);
         }
-
-        .page::after {
-            content: "✦";
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            color: var(--accent-gold);
-            font-size: 1.2rem;
-            opacity: 0.6;
-            font-family: var(--font-wayang);
-        }
+        .page::before { left: 15px; }
+        .page::after { right: 15px; }
 
         .page-left {
             border-right: 1px solid rgba(0, 0, 0, 0.08);
@@ -393,7 +378,7 @@
             letter-spacing: 1px;
         }
 
-        /* FRAMING FOTO WAYANG & CANDID */
+        /* FIX CAPTION: SEKARANG TEKS WARNA PUTIH CERAH & KONTRAST */
         .book-photo {
             width: 100%;
             height: 200px;
@@ -424,12 +409,13 @@
             left: 0;
             right: 0;
             background: rgba(26, 19, 14, 0.9);
-            color: var(--accent-gold);
-            padding: 6px;
-            font-size: 0.7rem;
+            color: #ffffff; /* DIUBAH KE PUTIH AGAR SANGAT JELAS */
+            padding: 8px;
+            font-size: 0.75rem;
             text-align: center;
             font-family: var(--font-wayang);
             border-top: 1px solid var(--accent-gold);
+            letter-spacing: 0.5px;
         }
 
         /* PHOTO GRID GALLERY */
@@ -473,7 +459,7 @@
         .h-180 { height: 180px; }
         .h-260 { height: 260px; }
 
-        /* CONTROLLER NIKAHAN / NAVIGASI */
+        /* CONTROLLER / NAVIGASI */
         .controls {
             display: flex;
             gap: 20px;
@@ -518,7 +504,6 @@
             text-align: center;
             margin: 10px 0;
             border-radius: 6px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
         }
 
         .cert-title {
@@ -606,27 +591,12 @@
         }
 
         @media (max-width: 768px) {
-            body {
-                overflow-y: auto;
-            }
-            .book {
-                min-height: auto;
-                border: 5px solid #201610;
-            }
-            .spine {
-                display: none;
-            }
-            .page-spread {
-                grid-template-columns: 1fr;
-            }
-            .page {
-                padding: 30px 20px;
-                min-height: 550px;
-            }
-            .page-left {
-                border-right: none;
-                border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
-            }
+            body { overflow-y: auto; }
+            .book { min-height: auto; border: 5px solid #201610; }
+            .spine { display: none; }
+            .page-spread { grid-template-columns: 1fr; }
+            .page { padding: 30px 20px; min-height: 550px; }
+            .page-left { border-right: none; border-bottom: 1px dashed rgba(0, 0, 0, 0.1); }
             .h-260, .h-180 { height: 160px; }
         }
     </style>
@@ -635,12 +605,10 @@
 
     <!-- ================= KOTAK SURAT WAYANG (OVERLAY) ================= -->
     <div class="welcome-overlay" id="welcomeOverlay">
-        <!-- SVG Siluet Gunungan Wayang Klasik -->
         <svg class="gunungan-logo" viewBox="0 0 100 130">
             <path d="M50 5 L90 100 L75 100 L70 120 L30 120 L25 100 L10 100 Z" stroke="#c5a880" stroke-width="1.5" fill="none"/>
             <path d="M50 15 L80 90 L65 90 L60 115 L40 115 L35 90 L20 90 Z" stroke="#c5a880" stroke-width="0.8" fill="none"/>
             <path d="M50 5 L50 120" stroke="#c5a880" stroke-width="1.5"/>
-            <!-- Ornamen cabang pohon hayat sederhana -->
             <path d="M50 40 Q65 30 75 45 M50 60 Q70 50 80 70 M50 80 Q65 75 70 95" stroke="#c5a880" stroke-width="1" fill="none"/>
             <path d="M50 40 Q35 30 25 45 M50 60 Q30 50 20 70 M50 80 Q35 75 30 95" stroke="#c5a880" stroke-width="1" fill="none"/>
         </svg>
@@ -658,10 +626,9 @@
     <!-- AUDIO PLAYER -->
     <audio id="bgMusic" loop>
         <source src="musik.mp3" type="audio/mpeg">
-        Browser kamu tidak mendukung pemutar musik.
     </audio>
 
-    <!-- KONTROL MUSIK MANUAL -->
+    <!-- KONTROL MUSIK -->
     <div class="audio-control" id="audioControl" onclick="toggleMusic()" style="display: none;">
         <span id="audioIcon">🎵</span> <span id="audioStatus">Gamelan: Mengalun</span>
     </div>
@@ -671,7 +638,7 @@
         <div class="book">
             <div class="spine"></div>
 
-            <!-- ================= COVER PAGE ================= -->
+            <!-- COVER -->
             <div class="cover-spread active" id="spread-0">
                 <div class="cover-content">
                     <span class="chapter-badge">Lakon Wisuda Agung</span>
@@ -685,7 +652,7 @@
                 </div>
             </div>
 
-            <!-- ================= SPREAD 1 (BAB I) ================= -->
+            <!-- SPREAD 1 (BAB I) -->
             <div class="page-spread" id="spread-1">
                 <div class="page page-left">
                     <div>
@@ -717,7 +684,7 @@
                 </div>
             </div>
 
-            <!-- ================= SPREAD 2 (BAB II) ================= -->
+            <!-- SPREAD 2 (BAB II) -->
             <div class="page-spread" id="spread-2">
                 <div class="page page-left">
                     <div>
@@ -749,7 +716,7 @@
                 </div>
             </div>
 
-            <!-- ================= SPREAD 3 (BAB III) ================= -->
+            <!-- SPREAD 3 (BAB III) -->
             <div class="page-spread" id="spread-3">
                 <div class="page page-left">
                     <div>
@@ -781,13 +748,12 @@
                 </div>
             </div>
 
-            <!-- ================= SPREAD 4 (GALERI FOTO PART 1) ================= -->
+            <!-- SPREAD 4 (GALERI FOTO PART 1) -->
             <div class="page-spread" id="spread-4">
                 <div class="page page-left">
                     <div>
                         <span class="chapter-badge">Arsip Memori: Reronce Jagat</span>
                         <h2 class="page-title">Kilas Balik & Tawa 📸</h2>
-                        
                         <div class="photo-grid-2">
                             <div class="grid-photo-box h-180">
                                 <img src="foto/nongkrong.jpg" alt="Foto Kenangan 1">
@@ -798,7 +764,6 @@
                                 <div class="photo-caption">Tim hore pendukung setia</div>
                             </div>
                         </div>
-
                         <div class="grid-photo-box h-120">
                             <img src="foto/rusuh.jpg" alt="Foto Kenangan 3">
                             <div class="photo-caption">Momen random pas kumpul bareng, rusuh abis!</div>
@@ -806,12 +771,10 @@
                     </div>
                     <div class="page-number">Halaman 7</div>
                 </div>
-                
                 <div class="page page-right">
                     <div>
                         <span class="chapter-badge">Arsip Memori: Reronce Jagat</span>
                         <h2 class="page-title">Yang Ga Boleh Dilupain 🎞️</h2>
-                        
                         <div class="photo-grid-3">
                             <div class="grid-photo-box h-140">
                                 <img src="foto/pose.jpg" alt="Grid 1">
@@ -826,7 +789,6 @@
                                 <div class="photo-caption">Ketawa lepas</div>
                             </div>
                         </div>
-
                         <div class="grid-photo-box h-180">
                             <img src="foto/estetik.jpg" alt="Foto Portrait">
                             <div class="photo-caption">Si paling estetik kalau difoto candid</div>
@@ -836,30 +798,26 @@
                 </div>
             </div>
 
-            <!-- ================= SPREAD 5 (GALERI FOTO PART 2) ================= -->
+            <!-- SPREAD 5 (GALERI FOTO PART 2) -->
             <div class="page-spread" id="spread-5">
                 <div class="page page-left">
                     <div>
                         <span class="chapter-badge">Arsip Memori: Candi Perjuangan</span>
                         <h2 class="page-title">Saksi Bisu Perjuangan ☕</h2>
-                        
                         <div class="grid-photo-box h-260" style="margin-bottom: 12px;">
                             <img src="foto/meja_tempur.jpg" alt="Meja Kerja Skripsi">
                             <div class="photo-caption">Penampakan meja tempur waktu dikejar deadline kualitatif</div>
                         </div>
-                        
                         <p class="page-text" style="font-size: 0.85rem; text-align: center; font-style: italic;">
                             "Setiap sudut foto di sini adalah bukti kalau kamu berhasil ngelewatin hari-hari yang kamu pikir kamu ga bakal sanggup."
                         </p>
                     </div>
                     <div class="page-number">Halaman 9</div>
                 </div>
-                
                 <div class="page page-right">
                     <div>
                         <span class="chapter-badge">Arsip Memori: Konco Kuliah</span>
                         <h2 class="page-title">Keluarga Kedua di Kampus 🫶</h2>
-                        
                         <div class="photo-grid-2">
                             <div class="grid-photo-box h-120">
                                 <img src="foto/rapat.jpg" alt="Teman 1">
@@ -883,7 +841,7 @@
                 </div>
             </div>
 
-            <!-- ================= SPREAD 6 (BAB IV: FINALE) ================= -->
+            <!-- SPREAD 6 (BAB IV) -->
             <div class="page-spread" id="spread-6">
                 <div class="page page-left">
                     <div>
@@ -902,7 +860,6 @@
                     <div>
                         <span class="chapter-badge">Lakon IV: Pungkasaning Lakon</span>
                         <h2 class="page-title">Happy Graduation Day! 🎉🎓</h2>
-                        
                         <div class="cert-box">
                             <div class="cert-title">Selamat Atas Kelulusan Resmi</div>
                             <div class="cert-name">Si Kulkas Kesayangan, S.Sos</div>
@@ -910,11 +867,9 @@
                                 Ditetapkan pada Hari H Wisuda dengan predikat "Si Paling Gengsi tapi Paling Hebat".
                             </div>
                         </div>
-
                         <p class="page-text" style="font-size: 0.85rem; text-align: center; margin-bottom: 10px;">
-                            Hari ini talinya udah dipindah ke kanan. Gak ada lagi alasan buat bilang "ah biasa aja." Kamu berhak bangga sama dirimu sendiri hari ini!
+                            Hari ini talinya udah dipindah ke kanan. Gak ada lagi alasan buat billing "ah biasa aja." Kamu berhak bangga sama dirimu sendiri hari ini!
                         </p>
-
                         <div style="text-align: center;">
                             <button class="btn-surprise" onclick="openModal()">Tombol Rahasia (Gak Usah Diklik!)</button>
                         </div>
@@ -956,7 +911,6 @@
         const audioIcon = document.getElementById('audioIcon');
         const audioStatus = document.getElementById('audioStatus');
 
-        // ================= FUNGSI BUKA SURAT & TRANSISI BUKU 3D =================
         function openEnvelope() {
             const envelope = document.getElementById('envelope');
             const welcomeOverlay = document.getElementById('welcomeOverlay');
@@ -966,14 +920,12 @@
             envelope.classList.add('open');
             hintText.innerText = "Ngelir lakon anyar...";
 
-            // Memutar Gamelan / Musik Pengiring
             bgMusic.play().then(() => {
                 audioControl.style.display = 'flex';
             }).catch(error => {
-                console.log("Autoplay dicegah browser.");
+                console.log("Autoplay dicegah.");
             });
 
-            // Efek transisi membuka layar pembuka & meluncurkan buku secara 3D
             setTimeout(() => {
                 welcomeOverlay.classList.add('fade-out');
                 bookWrapper.classList.add('show');
@@ -981,7 +933,6 @@
             }, 1600);
         }
 
-        // ================= TOMBOL MANUAL AUDIO =================
         function toggleMusic() {
             if (bgMusic.paused) {
                 bgMusic.play();
@@ -994,7 +945,6 @@
             }
         }
 
-        // ================= NAVIGASI BUKU =================
         function updateBook() {
             for (let i = 0; i < totalSpreads; i++) {
                 const spread = document.getElementById(`spread-${i}`);
@@ -1004,7 +954,6 @@
                     spread.classList.remove('active');
                 }
             }
-
             document.getElementById('btn-prev').disabled = currentSpread === 0;
             document.getElementById('btn-next').disabled = currentSpread === totalSpreads - 1;
         }
